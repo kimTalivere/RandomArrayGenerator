@@ -1,0 +1,22 @@
+services:
+    # Register the RandomStringGenerator service
+    App\RandomStringGenerator:
+        arguments:
+            $length: 10  # Set the length of the random string
+
+    # Register the RandomArrayGenerator service
+    App\RandomArrayGenerator:
+        arguments:
+            $stringGenerator: '@App\RandomStringGenerator'  # Inject the RandomStringGenerator service
+            $size: 3  # Set the size of the generated array
+
+    # Register the Rot13Encoder service
+    App\Rot13Encoder: {}  # No arguments required for this service
+
+    # Register the Application service
+    App\Application:
+        arguments:
+            $stringGenerator: '@App\RandomStringGenerator'  # Inject the RandomStringGenerator service
+            $arrayGenerator: '@App\RandomArrayGenerator'  # Inject the RandomArrayGenerator service
+            $encoder: '@App\Rot13Encoder'  # Inject the Rot13Encoder service
+        public: true  # Make this service public so it can be accessed outside the container
